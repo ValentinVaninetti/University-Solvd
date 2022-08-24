@@ -1,6 +1,8 @@
 package com.solvd.interfaces.university;
 
 import com.solvd.entities.person.Student;
+import com.solvd.enums.Status;
+import com.solvd.exceptions.StudentNotFoundException;
 
 public interface ICourse {
     /**
@@ -9,7 +11,7 @@ public interface ICourse {
      *
      * @return
      */
-    int countStudentsByStatus(String status);
+    int countStudentsByStatus(Status status);
 
     /**
      *
@@ -40,5 +42,5 @@ public interface ICourse {
      *
      * @param student
      */
-    void printGradeByStudent(Student student);
+    void printGradeByStudent(Student student) throws StudentNotFoundException;
 }

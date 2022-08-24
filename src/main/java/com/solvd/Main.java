@@ -8,8 +8,10 @@ import com.solvd.entities.person.Student;
 import com.solvd.entities.person.Teacher;
 import com.solvd.entities.scholarships.Scholarship;
 import com.solvd.entities.university.*;
+import com.solvd.enums.Job;
+import com.solvd.enums.Status;
 import com.solvd.exceptions.DepartmentNotFoundException;
-import com.solvd.exceptions.StatusNotAllowedException;
+import com.solvd.exceptions.StudentNotFoundException;
 import com.solvd.exceptions.UnknownBookException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,25 +25,22 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws DepartmentNotFoundException,
-            StatusNotAllowedException,
-            UnknownBookException
-             {
+            UnknownBookException, StudentNotFoundException {
 
         //********************************************** PERSONS *******************************************************//
 
-        Person john = new Student("john Johnson", 18, "Biology", "Active");
-        Person andrew = new Student("Andrew Lopez", 22, "System Engineer", "Active");
-        Person charles = new Student("Charles Chaplin", 23, "Mathematics", "Active");
-        Person juan = new Student("Juan Zappa", 17, "Physics", "Inactive");
-        Person steve = new Student("Steve Stevenson", 32, "System Engineer", "Inactive");
-        Person chad = new Student("Chad Chadson", -1, "Football", "Active");
-
+        Person john = new Student("john Johnson", 18, "Biology", Status.ACTIVE);
+        Person andrew = new Student("Andrew Lopez", 22, "System Engineer", Status.ACTIVE);
+        Person charles = new Student("Charles Chaplin", 23, "Mathematics", Status.INACTIVE);
+        Person juan = new Student("Juan Zappa", 17, "Physics", Status.SUSPENDED);
+        Person steve = new Student("Steve Stevenson", 32, "System Engineer", Status.ACTIVE);
+        Person chad = new Student("Chad Chadson", -1, "Football", Status.INACTIVE);
         Person josh = new Teacher("Josh", 29, 10);
         Person greg = new Teacher("Greg", 28, 12);
         Person gandalf = new Teacher("Gandalf", 42, 4);
 
-        Person dave = new Employee("dave", 47);
-        Person martha = new Employee("martha", 52);
+        Person dave = new Employee("dave", 47, Job.DIRECTOR, Integer.parseInt(Job.DIRECTOR.getSalary()));
+        Person martha = new Employee("martha", 52, Job.LIBRARIAN, Integer.parseInt(Job.LIBRARIAN.getSalary()));
 
         //-------------- FILLING STUDENT LIST ------------------------//
         List<Person> allStudents = new ArrayList<>();
@@ -149,7 +148,7 @@ public class Main {
         //********************************************* LIBRARY *******************************************************//
 
         //------------ CREATING BOOKS -----------------//
-        Book book1 = new Book("Java for Dummies", true, "Programming II");
+        Book book1 = new Book("Java for Dummies", false, "Programming II");
         Book book2 = new Book("The importance of having a liver", true, "Science");
         Book book3 = new Book("How to get to the end of the month", false, "Economics");
 
@@ -171,8 +170,11 @@ public class Main {
         //
 
         //*************************** EXECUTION ***********************//
-        library.withdrawBook("Java for Dummies");
-        library.returnBook(book2);
+        Book b = library.withdrawBook("Java for Dummies");
+        science.getDepartmentTotalStudents();
+        System.out.println(dave.toString());
+
+       /* library.returnBook(book2);
         System.out.println("there is this amount of total books in the " + library + " library : " + library.getTotalBooks());
 
         programming.printStudentsGrade();
@@ -184,10 +186,15 @@ public class Main {
          System.out.println(programming.hashCode());
 
          System.out.println(programming.hashCode());
-         programming.countStudentsByStatus(" ");
          programming.printStudentsGrade();
-                 programming.printGradeByStudent((Student)steve);
-                 programming.printGradeByStudent((Student) john);
+         programming.printGradeByStudent((Student)steve);
+         programming.printGradeByStudent((Student) john);
+         programming.countStudentsByStatus(Status.ACTIVE);
+         programming.countStudentsByStatus(Status.INACTIVE);
+         programming.countStudentsByStatus(Status.SUSPENDED);
+         programming.printGradeByStudent(null);
+         LOGGER.info("Supp");*/
+
 
     }
 

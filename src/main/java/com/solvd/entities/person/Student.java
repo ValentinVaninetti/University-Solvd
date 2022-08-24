@@ -1,15 +1,16 @@
 package com.solvd.entities.person;
 
+import com.solvd.enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Student extends Person {
     private static final Logger LOGGER = LogManager.getLogger(Student.class);
     private String career;
-    private String status;
+    Status status;
 
-    public Student(String name,int age, String career, String status) {
-        super(name,age);
+    public Student(String name, int age, String career, Status status) {
+        super(name, age);
         this.career = career;
         this.status = status;
     }
@@ -22,11 +23,11 @@ public class Student extends Person {
         this.career = career;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

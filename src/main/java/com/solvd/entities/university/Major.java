@@ -12,11 +12,11 @@ public class Major implements IMajor {
     private static final Logger LOGGER = LogManager.getLogger(Major.class);
     private String id = UUID.randomUUID().toString();
     private String majorName;
-    private List<Course> courselist;
+    private List<Course> courseList;
 
     public Major(String majorName, List<Course> courseList) {
         this.majorName = majorName;
-        this.courselist = courseList;
+        this.courseList = courseList;
     }
 
     public String getId() {
@@ -35,12 +35,12 @@ public class Major implements IMajor {
         this.majorName = majorName;
     }
 
-    public List<Course> getCourselist() {
-        return courselist;
+    public List<Course> getCourseList() {
+        return courseList;
     }
 
-    public void setCourselist(List<Course> courselist) {
-        this.courselist = courselist;
+    public void setCourseList(List<Course> courseList) {
+        this.courseList = courseList;
     }
 
     @Override

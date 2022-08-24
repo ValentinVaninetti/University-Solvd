@@ -4,7 +4,9 @@ import com.solvd.interfaces.library.ILibrary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Library implements ILibrary {
     private static final Logger LOGGER = LogManager.getLogger(Library.class);
@@ -40,23 +42,26 @@ public class Library implements ILibrary {
 
     @Override
     public Book withdrawBook(String bookName) {
-        for (Book b : this.bookList) {
-            if (b.getName().equals(bookName) && b.getRetired()) {
-                LOGGER.info("This book ("+bookName+ ") its already retired");
-            } else {
-                LOGGER.info("Succesfully retired the book: "+bookName);
-                b.setRetired(RETIRED);
-                return b;
-            }
+        List<Book> myBook = getBook(bookName);
+        if (!myBook.isEmpty()) {
+            myBook.get(0).setRetired(RETIRED);
+            return myBook.get(0);
+        } else {
+            LOGGER.info("Book not found or already retired");
+            return null;
         }
-        LOGGER.info("Book not found");
-        return null;
+    }
+
+    private List<Book> getBook(String bookName) {
+        return bookList.stream()
+                .filter(book -> book.getName().equals(bookName) && !book.isRetired())
+                .collect(Collectors.toList());
     }
 
     @Override
     public void returnBook(Book book) {
         for (Book b : bookList) {
-            if (b.equals(book) && b.getRetired()) {
+            if (b.equals(book) && b.isRetired()) {
                 b.setRetired(false);
                 LOGGER.info("Thank you for Returning the book");
             }

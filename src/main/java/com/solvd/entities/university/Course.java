@@ -2,7 +2,8 @@ package com.solvd.entities.university;
 
 import com.solvd.entities.person.Student;
 import com.solvd.entities.person.Teacher;
-import com.solvd.exceptions.StatusNotAllowedException;
+import com.solvd.enums.Status;
+import com.solvd.exceptions.StudentNotFoundException;
 import com.solvd.interfaces.university.ICourse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -88,20 +89,16 @@ public class Course implements ICourse {
     }
 
     @Override
-    public int countStudentsByStatus(String status) {
+    public int countStudentsByStatus(Status status) {
         if (this.studentList != null) {
             int total = 0;
             for (Student s : studentList) {
-                try {
-                    if (s.getStatus().equals(status)) {
-                        total++;
-                    }
-                    LOGGER.info("The Total of " + status + " students " + "in the Course of " + this.courseName + " is: " + total);
-                    return total;
-                } catch (Exception statusNotAllowedException) {
-                    throw new StatusNotAllowedException("Status not allowed", statusNotAllowedException);
+                if (s.getStatus() == status) {
+                    total++;
                 }
             }
+            LOGGER.info("The Total of " + status + " students " + "in the Course of " + this.courseName + " is: " + total);
+            return total;
         }
         LOGGER.info("There are no Students with the status: " + status);
         return 0;
@@ -121,13 +118,18 @@ public class Course implements ICourse {
     }
 
     @Override
-    public void printGradeByStudent(Student student) {
-        if (studentGrade.containsKey(student)) {
-            int grade = this.studentGrade.get(student);
-            LOGGER.info("The student " + student.getName() + " with id: " + student.getId() + " got a: " + grade + " in " + this.getCourseName());
+    public void printGradeByStudent(Student student) throws StudentNotFoundException {
+        if (student != null) {
+            if (studentGrade.containsKey(student)) {
+                int grade = this.studentGrade.get(student);
+                LOGGER.info("The student " + student.getName() + " with id: " + student.getId() + " got a: " + grade + " in " + this.getCourseName());
+            } else {
+                LOGGER.info("STUDENT NOT FOUND");
+            }
         } else {
-            LOGGER.info("STUDENT NOT FOUND");
+            throw new StudentNotFoundException("Student not found");
         }
+
     }
 
 }

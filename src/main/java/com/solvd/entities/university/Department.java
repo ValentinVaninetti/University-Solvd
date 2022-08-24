@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class Department implements IDepartment {
     private static final Logger LOGGER = LogManager.getLogger(Department.class);
@@ -38,13 +39,12 @@ public final class Department implements IDepartment {
 
     @Override
     public int getDepartmentTotalStudents() {
-        int count = 0;
-        for (Major m : this.majors) {
-            for (Course c : m.getCourselist()) {
-                count += c.getCourseTotalStudents();
-            }
-        }
-        this.LOGGER.info("The number of students in " + this.type + " is: " + count);
+        Integer count = this.majors.stream()
+                .map(Major::getCourseList)
+                .flatMap(List::stream)
+                .map(Course::getCourseTotalStudents)
+                .reduce(0, Integer::sum);
+        System.out.println(count);
         return count;
     }
 

@@ -38,7 +38,7 @@ public final class Book {
         this.name = name;
     }
 
-    public Boolean getRetired() {
+    public Boolean isRetired() {
         return isRetired;
     }
 
