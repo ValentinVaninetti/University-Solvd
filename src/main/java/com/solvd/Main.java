@@ -16,10 +16,7 @@ import com.solvd.exceptions.UnknownBookException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
@@ -138,8 +135,11 @@ public class Main {
         fastaDepartments.add(economy);
 
         //--------------- FILLING BENEFITS LIST ----------------//
-        List<String> benefits = new ArrayList<>();
-        benefits.add("something");
+        LinkedList<String> benefits = new LinkedList<>();
+        benefits.add("Free bus ticket");
+        benefits.add("Food discount");
+        benefits.add("Photocopy discount");
+        benefits.add("Computer");
 
         // --------------- CREATING UNIVERSITY ---------------------//
         University unicen = new PublicUniversity("UNICEN", "TANDIL", unicenDepartments, benefits);
@@ -174,7 +174,8 @@ public class Main {
         science.getDepartmentTotalStudents();
         System.out.println(dave.toString());
 
-       /* library.returnBook(book2);
+
+        library.returnBook(book2);
         System.out.println("there is this amount of total books in the " + library + " library : " + library.getTotalBooks());
 
         programming.printStudentsGrade();
@@ -182,18 +183,17 @@ public class Main {
 
         programming.getStudentById("7");
 
-         System.out.println(book1.hashCode());
-         System.out.println(programming.hashCode());
+        System.out.println(book1.hashCode());
+        System.out.println(programming.hashCode());
 
-         System.out.println(programming.hashCode());
-         programming.printStudentsGrade();
-         programming.printGradeByStudent((Student)steve);
-         programming.printGradeByStudent((Student) john);
-         programming.countStudentsByStatus(Status.ACTIVE);
-         programming.countStudentsByStatus(Status.INACTIVE);
-         programming.countStudentsByStatus(Status.SUSPENDED);
-         programming.printGradeByStudent(null);
-         LOGGER.info("Supp");*/
+        System.out.println(programming.hashCode());
+        programming.printStudentsGrade();
+        programming.printGradeByStudent((Student) steve);
+        programming.printGradeByStudent((Student) john);
+        programming.countStudentsByStatus(Status.ACTIVE);
+        programming.countStudentsByStatus(Status.INACTIVE);
+        programming.countStudentsByStatus(Status.SUSPENDED);
+        programming.printGradeByStudent(null);
 
 
     }
