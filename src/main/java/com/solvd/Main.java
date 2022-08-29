@@ -13,6 +13,7 @@ import com.solvd.enums.Status;
 import com.solvd.exceptions.DepartmentNotFoundException;
 import com.solvd.exceptions.StudentNotFoundException;
 import com.solvd.exceptions.UnknownBookException;
+import com.solvd.utils.CustomLinkedList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -169,6 +170,11 @@ public class Main {
         //should check if student is available to get a scholarship, but i will need some grades class, student wage
         //
 
+        //******************************************** CUSTOM LINKED LIST *********************************************//
+        CustomLinkedList<String> customList = new CustomLinkedList<>();
+        customList.insertAtFirst("Something");
+        customList.insertAtEnd("Another Benefit");
+
         //*************************** EXECUTION ***********************//
         Book b = library.withdrawBook("Java for Dummies");
         science.getDepartmentTotalStudents();
@@ -193,9 +199,9 @@ public class Main {
         programming.countStudentsByStatus(Status.ACTIVE);
         programming.countStudentsByStatus(Status.INACTIVE);
         programming.countStudentsByStatus(Status.SUSPENDED);
-        programming.printGradeByStudent(null);
-
-
+        System.out.println(customList);
+        System.out.println(customList.getFirst().getData());
+        System.out.println(customList.getLast().getData());
     }
 
 }
