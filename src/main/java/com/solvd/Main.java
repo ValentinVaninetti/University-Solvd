@@ -8,6 +8,7 @@ import com.solvd.entities.person.Student;
 import com.solvd.entities.person.Teacher;
 import com.solvd.entities.scholarships.Scholarship;
 import com.solvd.entities.university.*;
+import com.solvd.enums.Career;
 import com.solvd.enums.Job;
 import com.solvd.enums.Status;
 import com.solvd.exceptions.DepartmentNotFoundException;
@@ -23,16 +24,16 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws DepartmentNotFoundException,
-            UnknownBookException, StudentNotFoundException {
+            UnknownBookException, StudentNotFoundException, InterruptedException {
 
         //********************************************** PERSONS *******************************************************//
 
-        Person john = new Student("john Johnson", 18, "Biology", Status.ACTIVE);
-        Person andrew = new Student("Andrew Lopez", 22, "System Engineer", Status.ACTIVE);
-        Person charles = new Student("Charles Chaplin", 23, "Mathematics", Status.INACTIVE);
-        Person juan = new Student("Juan Zappa", 17, "Physics", Status.SUSPENDED);
-        Person steve = new Student("Steve Stevenson", 32, "System Engineer", Status.ACTIVE);
-        Person chad = new Student("Chad Chadson", -1, "Football", Status.INACTIVE);
+        Person john = new Student("john Johnson", 18, Career.BIOLOGY, Status.ACTIVE);
+        Person andrew = new Student("Andrew Lopez", 22, Career.ENGINEERING, Status.ACTIVE);
+        Person charles = new Student("Charles Chaplin", 23, Career.MATHEMATICS, Status.INACTIVE);
+        Person juan = new Student("Juan Zappa", 17, Career.BIOLOGY, Status.SUSPENDED);
+        Person steve = new Student("Steve Stevenson", 32, Career.ENGINEERING, Status.ACTIVE);
+        Person chad = new Student("Chad Chadson", -1, Career.PHYSICS, Status.INACTIVE);
         Person josh = new Teacher("Josh", 29, 10);
         Person greg = new Teacher("Greg", 28, 12);
         Person gandalf = new Teacher("Gandalf", 42, 4);
@@ -41,25 +42,12 @@ public class Main {
         Person martha = new Employee("martha", 52, Job.LIBRARIAN, Integer.parseInt(Job.LIBRARIAN.getSalary()));
 
         //-------------- FILLING STUDENT LIST ------------------------//
-        List<Person> allStudents = new ArrayList<>();
-        allStudents.add(john);
-        allStudents.add(andrew);
-        allStudents.add(charles);
-        allStudents.add(juan);
-        allStudents.add(steve);
-        allStudents.add(chad);
 
-        List<Student> engineeringStudents = new ArrayList<>();
-        engineeringStudents.add((Student) andrew);
-        engineeringStudents.add((Student) steve);
+        LoadEntitiesThread t = new LoadEntitiesThread((Student) john, (Student) andrew, (Student) charles, (Student) juan, (Student) steve, (Student) chad);
 
-        List<Student> marineBiologyStudents = new ArrayList<>();
-        marineBiologyStudents.add((Student) juan);
-        marineBiologyStudents.add((Student) chad);
+        new Thread(t).start();
+        Thread.sleep(5000);
 
-        List<Student> economyStudents = new ArrayList<>();
-        economyStudents.add((Student) charles);
-        economyStudents.add((Student) john);
 
         //--------------- FILLING TEACHER LIST ----------------------//
 
@@ -91,11 +79,11 @@ public class Main {
         economicStudentGrade.put((Student) charles, 9);
 
         //----------- CREATING COURSES -------------------//
-        Course programming = new Course(engineeringStudents, engineeringTeachers, "Programming", programmingStudentGrades, 8);
-        Course algebra = new Course(engineeringStudents, engineeringTeachers, "Algebra I", programmingStudentGrades, 8);
-        Course web = new Course(engineeringStudents, engineeringTeachers, "Web I", programmingStudentGrades, 6);
-        Course anatomy = new Course(marineBiologyStudents, marinebiologyTeachers, "Anatomy", biologyStudentGrade, 12);
-        Course latinAmericaEconomy = new Course(economyStudents, economyTeachers, "Latin America Economy XX Century", economicStudentGrade, 18);
+        Course programming = new Course(t.getStudentsListByCareer(Career.ENGINEERING), engineeringTeachers, "Programming", programmingStudentGrades, 8);
+        Course algebra = new Course(t.getStudentsListByCareer(Career.ENGINEERING), engineeringTeachers, "Algebra I", programmingStudentGrades, 8);
+        Course web = new Course(t.getStudentsListByCareer(Career.ENGINEERING), engineeringTeachers, "Web I", programmingStudentGrades, 6);
+        Course anatomy = new Course(t.getStudentsListByCareer(Career.BIOLOGY), marinebiologyTeachers, "Anatomy", biologyStudentGrade, 12);
+        Course latinAmericaEconomy = new Course(t.getStudentsListByCareer(Career.MATHEMATICS), economyTeachers, "Latin America Economy XX Century", economicStudentGrade, 18);
 
         //-----FILLING COURSE LIST -------//
         List<Course> engineeringCourses = new ArrayList<>();
@@ -202,6 +190,7 @@ public class Main {
         System.out.println(customList);
         System.out.println(customList.getFirst().getData());
         System.out.println(customList.getLast().getData());
+
     }
 
 }

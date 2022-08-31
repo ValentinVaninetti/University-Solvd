@@ -1,25 +1,26 @@
 package com.solvd.entities.person;
 
+import com.solvd.enums.Career;
 import com.solvd.enums.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Student extends Person {
     private static final Logger LOGGER = LogManager.getLogger(Student.class);
-    private String career;
+    private Career career;
     Status status;
 
-    public Student(String name, int age, String career, Status status) {
+    public Student(String name, int age, Career career, Status status) {
         super(name, age);
         this.career = career;
         this.status = status;
     }
 
-    public String getCareer() {
+    public Career getCareer() {
         return career;
     }
 
-    public void setCareer(String career) {
+    public void setCareer(Career career) {
         this.career = career;
     }
 

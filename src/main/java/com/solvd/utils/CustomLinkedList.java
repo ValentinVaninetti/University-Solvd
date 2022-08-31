@@ -1,7 +1,6 @@
 package com.solvd.utils;
 
 
-import com.solvd.entities.university.Department;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -109,6 +108,9 @@ public class CustomLinkedList<E> {
             this.setFirst(node);
             this.lenght++;
         }
+    }
+    public void deleteAt(){
+
     }
 
     private void insertIfEmpty(Node<E> node) {
