@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class Major implements IMajor {
-    private static final Logger LOGGER = LogManager.getLogger(Major.class);
     private String id = UUID.randomUUID().toString();
     private String majorName;
     private List<Course> courseList;

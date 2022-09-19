@@ -1,5 +1,6 @@
 package com.solvd;
 
+import com.solvd.db.SingletonDatabaseConnection;
 import com.solvd.entities.library.Book;
 import com.solvd.entities.library.Library;
 import com.solvd.entities.person.Employee;
@@ -14,17 +15,21 @@ import com.solvd.enums.Status;
 import com.solvd.exceptions.DepartmentNotFoundException;
 import com.solvd.exceptions.StudentNotFoundException;
 import com.solvd.exceptions.UnknownBookException;
+import com.solvd.utils.CommonUtils;
 import com.solvd.utils.CustomLinkedList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws DepartmentNotFoundException,
-            UnknownBookException, StudentNotFoundException, InterruptedException {
+            UnknownBookException, StudentNotFoundException, InterruptedException, IOException, SQLException {
 
         //********************************************** PERSONS *******************************************************//
 
@@ -133,7 +138,6 @@ public class Main {
         // --------------- CREATING UNIVERSITY ---------------------//
         University unicen = new PublicUniversity("UNICEN", "TANDIL", unicenDepartments, benefits);
         University fasta = new PrivateUniversity("FASTA", "BUENOS AIRES", fastaDepartments, 1500, "USD");
-
         //********************************************* LIBRARY *******************************************************//
 
         //------------ CREATING BOOKS -----------------//
@@ -190,7 +194,15 @@ public class Main {
         System.out.println(customList);
         System.out.println(customList.getFirst().getData());
         System.out.println(customList.getLast().getData());
+        System.out.println(CommonUtils.readPropertiesFile("src/main/resources/configuration.properties", "MONTHLY_STATE_SUBSIDY"));
+        System.out.println(((PublicUniversity) unicen).getMonthlyStateSubsidy());
+        System.out.println(((PublicUniversity) unicen).getCoinType());
 
+        SingletonDatabaseConnection.getInstance();
+        Connection s = SingletonDatabaseConnection.getConnection();
+        System.out.println(s);
+        Connection d = SingletonDatabaseConnection.getConnection();
+        System.out.println(d);
     }
 
 }
